@@ -8,6 +8,7 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import theme from "../src/theme";
 import createEmotionCache from "../src/createEmotionCache";
 import AuthContextProvider from "../context/AuthContext";
+import AuthGuard from "../components/AuthGuard";
 
 axios.defaults.baseURL = process.env.API_URL;
 
@@ -29,7 +30,9 @@ const MyApp = (props: MyAppProps) => {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Component {...pageProps} />
+          <AuthGuard>
+            <Component {...pageProps} />
+          </AuthGuard>
         </ThemeProvider>
       </AuthContextProvider>
     </CacheProvider>
