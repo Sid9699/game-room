@@ -10,7 +10,7 @@ import createEmotionCache from "../src/createEmotionCache";
 import AuthContextProvider from "../context/AuthContext";
 import AuthGuard from "../components/AuthGuard";
 
-axios.defaults.baseURL = process.env.API_URL;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

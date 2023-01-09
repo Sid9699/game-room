@@ -7,8 +7,29 @@ import {
   Typography,
   Link,
 } from "@mui/material";
+import { useForm, Controller, FieldValues } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useAuthContext } from "../../hooks/useAuthContext";
+
+const schema = yup.object({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(8, "Password should have minimum 8 characters"),
+});
 
 const Login = () => {
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const { login } = useAuthContext();
+
+  const handleLogin = (values: FieldValues) => {
+    login(values.email, values.password);
+  };
+
   return (
     <Box
       sx={(theme) => ({
@@ -24,6 +45,8 @@ const Login = () => {
           justifyContent: "center",
           alignItems: "center",
         }}
+        component="form"
+        onSubmit={handleSubmit(handleLogin)}
       >
         <Stack
           bgcolor="whitesmoke"
@@ -36,9 +59,46 @@ const Login = () => {
           <Typography variant="h4" textAlign="center">
             Log In
           </Typography>
-          <TextField label="Email" />
-          <TextField label="Password" type="password" />
-          <Button variant="contained">Log In</Button>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                label="Email"
+                fullWidth
+                value={
+                  typeof field.value === "number" && field.value === 0
+                    ? ""
+                    : field.value
+                }
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
+          />
+          <Controller
+            name="password"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                label="Password"
+                type="password"
+                fullWidth
+                value={
+                  typeof field.value === "number" && field.value === 0
+                    ? ""
+                    : field.value
+                }
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
+          />
+          <Button variant="contained" type="submit">
+            Log In
+          </Button>
           <Typography variant="body1" textAlign="center">
             Don&apos;t have an account?{" "}
             <Link href="/auth/register">Sign Up now</Link>
