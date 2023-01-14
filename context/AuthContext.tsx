@@ -24,6 +24,19 @@ const AuthContextProvider = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    axios.interceptors.request.use(
+      (req) => {
+        const tokenExpiry = Cookies.get("tokenExpiry");
+        if (tokenExpiry) {
+          logout();
+        }
+        return req;
+      },
+      (err) => {
+        return Promise.reject(err);
+      }
+    );
+
     const loadUserFromCookies = async () => {
       const token = Cookies.get("token");
       if (token) {
@@ -40,9 +53,9 @@ const AuthContextProvider = (props: Props) => {
     const { data } = await axios.post("auth/login", { email, password });
     if (data) {
       Cookies.set("token", data.token, { expires: 60 });
+      Cookies.set("tokenExpiry", data.tokenExpiry, { expires: 60 });
       axios.defaults.headers.Authorization = `Bearer ${data.token}`;
-      delete data.token;
-      setUser(data);
+      setUser(data.user);
     }
   };
 
@@ -50,17 +63,17 @@ const AuthContextProvider = (props: Props) => {
     const { data } = await axios.post("auth/register", { email, password });
     if (data) {
       Cookies.set("token", data.token, { expires: 60 });
+      Cookies.set("tokenExpiry", data.tokenExpiry, { expires: 60 });
       axios.defaults.headers.Authorization = `Bearer ${data.token}`;
-      delete data.token;
-      setUser(data);
+      setUser(data.user);
     }
   };
 
   const logout = () => {
     Cookies.remove("token");
+    Cookies.remove("tokenExpiry");
     setUser(null);
     delete axios.defaults.headers.Authorization;
-    window.location.pathname = "/login";
   };
 
   const value = {
