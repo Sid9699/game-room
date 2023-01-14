@@ -2,7 +2,6 @@ import { useEffect, useState, createContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { IUser } from "../interfaces";
-import { useRouter } from "next/router";
 
 type AuthContextType = {
   user: IUser | null;
@@ -24,13 +23,11 @@ const AuthContextProvider = (props: Props) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const router = useRouter();
-
   useEffect(() => {
     axios.interceptors.request.use(
       (req) => {
         const tokenExpiry = Cookies.get("tokenExpiry");
-        if (tokenExpiry) {
+        if (tokenExpiry && Date.now() > parseInt(tokenExpiry)) {
           logout();
         }
         return req;
@@ -42,7 +39,8 @@ const AuthContextProvider = (props: Props) => {
 
     const loadUserFromCookies = async () => {
       const token = Cookies.get("token");
-      if (token) {
+      const tokenExpiry = Cookies.get("tokenExpiry");
+      if (token && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
         axios.defaults.headers.Authorization = `Bearer ${token}`;
         const { data: user } = await axios.get("user");
         if (user) setUser(user);
@@ -77,7 +75,6 @@ const AuthContextProvider = (props: Props) => {
     Cookies.remove("tokenExpiry");
     setUser(null);
     delete axios.defaults.headers.Authorization;
-    router.push("/auth/login");
   };
 
   const value = {
