@@ -2,6 +2,7 @@ import { useEffect, useState, createContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { IUser } from "../interfaces";
+import { useRouter } from "next/router";
 
 type AuthContextType = {
   user: IUser | null;
@@ -22,6 +23,8 @@ interface Props {
 const AuthContextProvider = (props: Props) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const router = useRouter();
 
   useEffect(() => {
     axios.interceptors.request.use(
@@ -74,6 +77,7 @@ const AuthContextProvider = (props: Props) => {
     Cookies.remove("tokenExpiry");
     setUser(null);
     delete axios.defaults.headers.Authorization;
+    router.push("/auth/login");
   };
 
   const value = {
