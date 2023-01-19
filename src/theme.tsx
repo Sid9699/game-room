@@ -23,13 +23,22 @@ const LinkBehaviour = forwardRef<HTMLAnchorElement>(function LinkBehaviour(
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#556cd6",
+      main: "#273b40",
     },
     secondary: {
-      main: "#19857b",
+      main: "#cae9ea",
     },
     error: {
-      main: red.A400,
+      main: red.A700,
+    },
+    warning: {
+      main: "#1d1d1d",
+    },
+    info: {
+      main: "#3c4748",
+    },
+    success: {
+      main: "#208c8c",
     },
   },
   typography: {
