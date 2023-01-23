@@ -14,12 +14,10 @@ const LoaderContainer = styled(Box)(({ theme }) => ({
   backdropFilter: "blur(6px)",
 }));
 
-const Loader = () => {
+export const Loader = () => {
   return (
     <LoaderContainer>
       <CircularProgress size={64} />
     </LoaderContainer>
   );
 };
-
-export default Loader;

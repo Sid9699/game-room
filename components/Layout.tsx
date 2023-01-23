@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from "react";
-import AppBar from "./AppBar";
+import { AppBar } from "./AppBar";
 
-const Layout: FC<PropsWithChildren> = ({ children }) => {
+export const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <AppBar />
@@ -9,5 +9,3 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     </>
   );
 };
-
-export default Layout;

@@ -47,8 +47,28 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        "html, body, body > div:first-child, div#__next, div#__next > div": {
+        "html, body, body > div:first-child, div#__next": {
           height: "100%",
+        },
+
+        /* width */
+        "::-webkit-scrollbar": {
+          width: 6,
+        },
+
+        /* Track */
+        "::-webkit-scrollbar-track": {
+          background: "#f1f1f1",
+        },
+
+        /* Handle */
+        "::-webkit-scrollbar-thumb": {
+          background: "#888",
+        },
+
+        /* Handle on hover */
+        "::-webkit-scrollbar-thumb:hover": {
+          background: "#555",
         },
       },
     },

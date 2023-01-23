@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const AppBar = () => {
+export const AppBar = () => {
   const { logout } = useAuthContext();
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -24,5 +24,3 @@ const AppBar = () => {
     </Box>
   );
 };
-
-export default AppBar;

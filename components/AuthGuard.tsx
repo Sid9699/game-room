@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
-import Loader from "./Loader";
+import { Loader } from "./";
 
-const AuthGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const AuthGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { loading, user } = useAuthContext();
   const router = useRouter();
 
@@ -25,5 +25,3 @@ const AuthGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   return <>{children}</>;
 };
-
-export default AuthGuard;
