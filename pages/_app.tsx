@@ -30,7 +30,7 @@ const MyApp = (props: MyAppProps) => {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <SWRConfig value={{ fetcher }}>
+      <SWRConfig value={{ fetcher, revalidateOnFocus: false }}>
         <AuthContextProvider>
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
