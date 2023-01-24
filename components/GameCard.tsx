@@ -1,11 +1,12 @@
 import {
-  Backdrop,
   Typography,
+  Button,
   Card,
   CardMedia,
   CardActionArea,
   styled,
 } from "@mui/material";
+import { ShoppingCart } from "@mui/icons-material";
 
 const CustomCard = styled(Card)(({ theme }) => ({
   position: "relative",
@@ -43,11 +44,10 @@ export const GameCard = (props: Props): JSX.Element => {
         >
           {name}
         </Typography>
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={false}
-        />
       </CardActionArea>
+      <Button fullWidth color="warning" endIcon={<ShoppingCart />}>
+        Add to cart
+      </Button>
     </CustomCard>
   );
 };
