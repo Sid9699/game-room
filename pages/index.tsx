@@ -1,5 +1,5 @@
 import useSwr from "swr";
-import { Typography, Stack, Pagination } from "@mui/material";
+import { Stack, Pagination } from "@mui/material";
 import { GameCard, Layout, Loader } from "../components";
 import { IGame } from "../interfaces";
 import { useRouter } from "next/router";
@@ -29,7 +29,7 @@ const Home = () => {
   return (
     <Layout>
       {isLoading && <Loader />}
-      <Box bgcolor="secondary.light">
+      <Box bgcolor="secondary.light" height="100%">
         <Stack
           p={4}
           direction="row"
@@ -47,7 +47,7 @@ const Home = () => {
               />
             ))}
         </Stack>
-        <Stack alignItems="center" py={4}>
+        <Stack alignItems="center" pb={4}>
           {!!data && (
             <Pagination
               count={Math.floor(data?.count / 20)}
