@@ -5,23 +5,26 @@ import { IGame } from "../interfaces";
 import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Home = () => {
   const [page, setPage] = useState(1);
   const router = useRouter();
 
-  const { data, isLoading, error } = useSwr<{
+  const { user } = useAuthContext();
+
+  const { data, isLoading } = useSwr<{
     count: number;
     games: IGame[];
   }>(
-    `/games?page=${page}${
-      router.query.search ? `&search=${router.query.search}` : ""
-    }`
+    user
+      ? `/games?page=${page}${
+          router.query.search ? `&search=${router.query.search}` : ""
+        }`
+      : null
   );
 
   const handlePageChange = (value: number) => setPage(value);
-
-  if (error) return <Typography variant="h6">{error}</Typography>;
 
   return (
     <Layout>
