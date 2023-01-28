@@ -6,7 +6,9 @@ import {
   TextField,
   Typography,
   Link,
+  CircularProgress,
 } from "@mui/material";
+import { useState } from "react";
 import { useForm, Controller, FieldValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -21,13 +23,22 @@ const schema = yup.object({
 });
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
+
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
   const { register } = useAuthContext();
 
-  const handleRegister = (values: FieldValues) => {
-    register(values.email, values.password);
+  const handleRegister = async (values: FieldValues) => {
+    try {
+      setLoading(true);
+      await register(values.email, values.password);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -96,9 +107,12 @@ const SignUp = () => {
               />
             )}
           />
-          <Button variant="contained" type="submit">Sign Up</Button>
+          <Button variant="contained" type="submit" disabled={loading}>
+            {loading ? <CircularProgress size={24} /> : "Sign Up"}
+          </Button>
           <Typography variant="body1" textAlign="center">
-            Already have an account? <Link href="/auth/login">Log In now</Link>
+            Already have an account?{" "}
+            {loading ? "Log In" : <Link href="/auth/login">Log In</Link>}
           </Typography>
         </Stack>
       </Container>
