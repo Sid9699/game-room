@@ -5,3 +5,9 @@ export interface IGame {
   rating: number;
   rating_top: number;
 }
+
+
+export interface IGenre {
+  id: number;
+  name: string;
+}
