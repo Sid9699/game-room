@@ -1,16 +1,18 @@
 import useSwr from "swr";
 import {
+  Box,
   Stack,
   Pagination,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { GameCard, Layout, Loader } from "../components";
 import { IGame, IGenre } from "../interfaces";
 import { useRouter } from "next/router";
-import Box from "@mui/material/Box";
 import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -20,6 +22,8 @@ const Home = () => {
   const router = useRouter();
 
   const { user } = useAuthContext();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   const { data, isLoading } = useSwr<{
     count: number;
@@ -87,7 +91,8 @@ const Home = () => {
               variant="text"
               shape="rounded"
               page={page}
-              onChange={(event, page) => handlePageChange(page)}
+              onChange={(_event, page) => handlePageChange(page)}
+              size={matches ? "large" : "small"}
             />
           )}
         </Box>
