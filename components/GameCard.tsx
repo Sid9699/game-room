@@ -7,8 +7,9 @@ import {
   styled,
 } from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
-const CustomCard = styled(Card)(({ theme }) => ({
+const CustomCard = styled(Card)(() => ({
   position: "relative",
 
   "&:hover h6": {
@@ -28,9 +29,18 @@ interface Props {
 
 export const GameCard = (props: Props): JSX.Element => {
   const { background, name, id } = props;
+
+  const router = useRouter();
+
+  const onCardClick = (id: number) => {
+    router.push({
+      pathname: `/game/${id}`,
+    });
+  };
+
   return (
     <CustomCard sx={{ width: 220 }} elevation={0}>
-      <CardActionArea>
+      <CardActionArea onClick={() => onCardClick(id)}>
         <CustomCardMedia sx={{ height: 220 }} image={background} title={name} />
         <Typography
           variant="subtitle1"

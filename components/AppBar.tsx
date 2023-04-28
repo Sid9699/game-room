@@ -7,6 +7,8 @@ import {
   InputBase,
   alpha,
   styled,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -59,6 +61,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const AppBar = () => {
   const { logout } = useAuthContext();
   const router = useRouter();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   const handleSearch = debounce(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -74,12 +78,14 @@ export const AppBar = () => {
           <Typography variant="h6" component="div">
             Game Room
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase placeholder="Search…" onChange={handleSearch} />
-          </Search>
+          {router.pathname === "/" && matches && (
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase placeholder="Search…" onChange={handleSearch} />
+            </Search>
+          )}
           <Box sx={{ flexGrow: 1 }} />
           <Button color="inherit" onClick={logout}>
             Log Out

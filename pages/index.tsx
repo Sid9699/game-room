@@ -10,7 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { GameCard, Layout, Loader } from "../components";
+import { GameCard, Loader } from "../components";
 import { IGame, IGenre } from "../interfaces";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -44,60 +44,58 @@ const Home = () => {
   const handlePageChange = (value: number) => setPage(value);
 
   return (
-    <Layout>
+    <>
       {isLoading && <Loader />}
-      <Box bgcolor="secondary.light" minHeight="100%">
-        <Box display="flex" justifyContent="flex-end" pt={2} mr={7}>
-          {!!genresData && (
-            <FormControl size="small" sx={{ width: 220 }}>
-              <InputLabel>Genre</InputLabel>
-              <Select
-                value={genre}
-                onChange={(event) => setGenre(event.target.value)}
-                label="Genre"
-              >
-                {genresData.genres.map((genre) => (
-                  <MenuItem key={genre.id} value={genre.id}>
-                    {genre.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
-        </Box>
-        <Stack
-          px={4}
-          py={2}
-          direction="row"
-          flexWrap="wrap"
-          justifyContent="space-evenly"
-          gap={4}
-        >
-          {!!data &&
-            data.games.map((game) => (
-              <GameCard
-                key={game.id}
-                background={game.background_image}
-                id={game.id}
-                name={game.name}
-              />
-            ))}
-        </Stack>
-        <Box display="flex" justifyContent="center" alignItems="center" pb={2}>
-          {!!data && (
-            <Pagination
-              count={Math.floor(data?.count / 20)}
-              color="primary"
-              variant="text"
-              shape="rounded"
-              page={page}
-              onChange={(_event, page) => handlePageChange(page)}
-              size={matches ? "large" : "small"}
-            />
-          )}
-        </Box>
+      <Box display="flex" justifyContent="flex-end" pt={2} mr={7}>
+        {!!genresData && (
+          <FormControl size="small" sx={{ width: 220 }}>
+            <InputLabel>Genre</InputLabel>
+            <Select
+              value={genre}
+              onChange={(event) => setGenre(event.target.value)}
+              label="Genre"
+            >
+              {genresData.genres.map((genre) => (
+                <MenuItem key={genre.id} value={genre.id}>
+                  {genre.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
       </Box>
-    </Layout>
+      <Stack
+        px={4}
+        py={2}
+        direction="row"
+        flexWrap="wrap"
+        justifyContent="space-evenly"
+        gap={4}
+      >
+        {!!data &&
+          data.games.map((game) => (
+            <GameCard
+              key={game.id}
+              background={game.background_image}
+              id={game.id}
+              name={game.name}
+            />
+          ))}
+      </Stack>
+      <Box display="flex" justifyContent="center" alignItems="center" pb={2}>
+        {!!data && (
+          <Pagination
+            count={Math.floor(data?.count / 20)}
+            color="primary"
+            variant="text"
+            shape="rounded"
+            page={page}
+            onChange={(_event, page) => handlePageChange(page)}
+            size={matches ? "large" : "small"}
+          />
+        )}
+      </Box>
+    </>
   );
 };
 

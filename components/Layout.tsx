@@ -6,7 +6,9 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <AppBar />
-      <Box height="calc(100% - 64px)">{children}</Box>
+      <Box bgcolor="secondary.light" height="calc(100% - 64px)" overflow="auto">
+        {children}
+      </Box>
     </>
   );
 };
