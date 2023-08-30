@@ -11,10 +11,9 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext, useDebounce } from "../hooks";
 import { useRouter } from "next/router";
-import { debounce } from "lodash";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,23 +58,37 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const AppBar = () => {
+  const [search, setSearch] = useState("");
+
   const { logout } = useAuthContext();
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
-  const handleSearch = debounce(
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      router.push(`/?search=${event.target.value}`);
-    },
-    400
-  );
+  const debouncedHandleSearch = useDebounce(() => {
+    router.push(`/${search ? `?search=${search}` : ""}`);
+  }, 400);
+
+  const handleSearch = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSearch(event.target.value);
+    debouncedHandleSearch();
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <MuiAppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div">
+          <Typography
+            variant="h6"
+            component="a"
+            color="white"
+            onClick={() => {
+              setSearch("");
+              debouncedHandleSearch();
+            }}
+          >
             Game Room
           </Typography>
           {router.pathname === "/" && matches && (
@@ -83,7 +96,11 @@ export const AppBar = () => {
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <StyledInputBase placeholder="Search…" onChange={handleSearch} />
+              <StyledInputBase
+                placeholder="Search…"
+                value={search}
+                onChange={handleSearch}
+              />
             </Search>
           )}
           <Box sx={{ flexGrow: 1 }} />

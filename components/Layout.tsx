@@ -12,7 +12,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <AppBar />
-      <Box bgcolor="secondary.light" minHeight="calc(100% - 64px)" overflow="auto">
+      <Box bgcolor="secondary.light" minHeight="calc(100% - 128px)" overflow="auto">
         {children}
       </Box>
       <Footer />

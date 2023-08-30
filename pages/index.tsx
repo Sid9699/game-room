@@ -55,6 +55,7 @@ const Home = () => {
               onChange={(event) => setGenre(event.target.value)}
               label="Genre"
             >
+              <MenuItem value="">Select</MenuItem>
               {genresData.genres.map((genre) => (
                 <MenuItem key={genre.id} value={genre.id}>
                   {genre.name}
