@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useForm, Controller, FieldValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),

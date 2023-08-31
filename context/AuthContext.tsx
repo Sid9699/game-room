@@ -2,6 +2,7 @@ import { useEffect, useState, createContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { IUser } from "../interfaces";
+import { encodeToken, decodeToken } from "../utils";
 
 type AuthContextType = {
   user: IUser | null;
@@ -41,7 +42,7 @@ const AuthContextProvider = (props: Props) => {
       const token = Cookies.get("token");
       const tokenExpiry = Cookies.get("tokenExpiry");
       if (token && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
-        axios.defaults.headers.Authorization = `Bearer ${token}`;
+        axios.defaults.headers.Authorization = `Bearer ${decodeToken(token)}`;
         const { data: user } = await axios.get("user");
         if (user) setUser(user);
       }
@@ -53,8 +54,8 @@ const AuthContextProvider = (props: Props) => {
   const login = async (email: string, password: string) => {
     const { data } = await axios.post("auth/login", { email, password });
     if (data) {
-      Cookies.set("token", data.token, { expires: 60 });
-      Cookies.set("tokenExpiry", data.tokenExpiry, { expires: 60 });
+      Cookies.set("token", encodeToken(data.token));
+      Cookies.set("tokenExpiry", data.tokenExpiry);
       axios.defaults.headers.Authorization = `Bearer ${data.token}`;
       setUser(data.user);
     }
