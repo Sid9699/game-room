@@ -9,9 +9,10 @@ import {
   styled,
   useTheme,
   useMediaQuery,
+  Badge,
 } from "@mui/material";
-import { Search as SearchIcon } from "@mui/icons-material";
-import { useAuthContext, useDebounce } from "../hooks";
+import { Search as SearchIcon, ShoppingCart } from "@mui/icons-material";
+import { useAuthContext, useCart, useDebounce } from "../hooks";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 
@@ -64,6 +65,7 @@ export const AppBar = () => {
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const { count } = useCart();
 
   const debouncedHandleSearch = useDebounce(() => {
     router.push(`/${search ? `?search=${search}` : ""}`);
@@ -104,6 +106,9 @@ export const AppBar = () => {
             </Search>
           )}
           <Box sx={{ flexGrow: 1 }} />
+          <Badge badgeContent={count} sx={{ color: "white", mr: 3 }} showZero>
+            <ShoppingCart sx={{ color: "white" }} />
+          </Badge>
           <Button color="inherit" onClick={logout}>
             Log Out
           </Button>

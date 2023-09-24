@@ -10,6 +10,7 @@ import createEmotionCache from "../src/createEmotionCache";
 import AuthContextProvider from "../context/AuthContext";
 import { AuthGuard, Layout } from "../components";
 import { SWRConfig } from "swr";
+import CartContextProvider from "../context/CartContext";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -37,9 +38,11 @@ const MyApp = (props: MyAppProps) => {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <AuthGuard>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <CartContextProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </CartContextProvider>
             </AuthGuard>
           </ThemeProvider>
         </AuthContextProvider>
