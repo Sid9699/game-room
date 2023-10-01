@@ -78,6 +78,10 @@ export const AppBar = () => {
     debouncedHandleSearch();
   };
 
+  const handleRouteToCart = () => {
+    router.push("/cart");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <MuiAppBar position="static">
@@ -106,7 +110,12 @@ export const AppBar = () => {
             </Search>
           )}
           <Box sx={{ flexGrow: 1 }} />
-          <Badge badgeContent={count} sx={{ color: "white", mr: 3 }} showZero>
+          <Badge
+            badgeContent={count}
+            sx={{ color: "white", mr: 3, cursor: "pointer" }}
+            showZero
+            onClick={handleRouteToCart}
+          >
             <ShoppingCart sx={{ color: "white" }} />
           </Badge>
           <Button color="inherit" onClick={logout}>
